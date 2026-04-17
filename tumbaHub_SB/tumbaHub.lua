@@ -24,7 +24,7 @@ Mega = {
     LoadedModules = {}
 }
 
-local baseURL = "https://raw.githubusercontent.com/daniaggbro-cloud/betatesttumba/main/TumbaHub-main%20(3)/TumbaHub-main/tumbaHub/"
+local baseURL = "https://raw.githubusercontent.com/baconthegamer69-hash/TumbaHub_SlapBattles/main/tumbaHub_SB/"
 
 function Mega.GetImageFromURL(url, fileName)
     local folderPath = "tumbaHub/icons_v2/"
@@ -72,9 +72,8 @@ function Mega.LoadModule(path)
     if isfile and readfile then
         -- Список возможных путей для поиска локального файла
         local possiblePaths = {
-            "tumbaHub/" .. path,
             path,
-            "betatesttumba-main/TumbaHub-main (3)/TumbaHub-main/tumbaHub/" .. path
+            "tumbaHub_SB/" .. path
         }
         
         for _, p in ipairs(possiblePaths) do
@@ -192,12 +191,10 @@ if queue_on_teleport then
     local teleportCode = [[
         task.wait(1)
         if isfile and readfile then
-            if isfile("betatesttumba-main/TumbaHub-main (3)/TumbaHub-main/tumbaHub/tumbaHub.lua") then
-                loadstring(readfile("betatesttumba-main/TumbaHub-main (3)/TumbaHub-main/tumbaHub/tumbaHub.lua"))()
-            elseif isfile("tumbaHub/tumbaHub.lua") then
-                loadstring(readfile("tumbaHub/tumbaHub.lua"))()
+            if isfile("tumbaHub_SB/tumbaHub.lua") then
+                loadstring(readfile("tumbaHub_SB/tumbaHub.lua"))()
             else
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/daniaggbro-cloud/betatesttumba/refs/heads/main/TumbaHub-main%20(3)/TumbaHub-main/tumbaHub/tumbaHub.lua", true))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/baconthegamer69-hash/TumbaHub_SlapBattles/main/tumbaHub_SB/tumbaHub.lua", true))()
             end
         end
     ]]

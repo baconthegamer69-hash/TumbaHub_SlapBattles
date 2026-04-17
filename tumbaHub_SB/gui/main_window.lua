@@ -6,7 +6,7 @@ local Services = Mega.Services
 local Settings = Mega.Settings
 local States = Mega.States
 local GetText = Mega.GetText
-local iconBaseUrl = "https://raw.githubusercontent.com/daniaggbro-cloud/betatesttumba/main/TumbaHub-main%20(3)/TumbaHub-main/tumbaHub/icon/"
+local iconBaseUrl = "https://raw.githubusercontent.com/baconthegamer69-hash/TumbaHub_SlapBattles/main/tumbaHub_SB/icon/"
 
 function Mega.ReloadGUI()
     -- 1. Очищаем все старые подключения и объекты перед рестартом
