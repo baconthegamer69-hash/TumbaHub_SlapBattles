@@ -72,7 +72,6 @@ function Loader.Create()
     Header.BorderSizePixel = 0
     
     local StageList = {
-        {id = "network", key = "phase_network"},
         {id = "core", key = "phase_core"},
         {id = "features", key = "phase_features"},
         {id = "ui", key = "phase_ui"}
