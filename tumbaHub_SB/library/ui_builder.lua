@@ -661,3 +661,65 @@ function Mega.UI.CreateLabel(parent, textKey)
     
     return LabelFrame
 end
+
+function Mega.UI.CreateTextBox(parent, textKey, statePath, placeholder, callback)
+    local translatedText = GetText(textKey)
+    
+    local function getState()
+        local path = statePath
+        local value = Mega.States
+        for part in path:gmatch("[^%.]+") do value = value and value[part] end
+        return value or ""
+    end
+
+    local TextBoxFrame = Instance.new("Frame")
+    TextBoxFrame.Name = textKey .. "TextBox"
+    TextBoxFrame.Size = UDim2.new(0.9, 0, 0, 55)
+    TextBoxFrame.BackgroundTransparency = 1
+    if parent then TextBoxFrame.Parent = parent end
+
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(1, 0, 0, 20)
+    Label.BackgroundTransparency = 1
+    Label.Text = " " .. translatedText
+    Label.TextColor3 = Mega.Settings.Menu.TextColor
+    Label.TextSize = 13
+    Label.Font = Enum.Font.Gotham
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = TextBoxFrame
+
+    local TextBox = Instance.new("TextBox")
+    TextBox.Size = UDim2.new(1, -10, 0, 28)
+    TextBox.Position = UDim2.new(0, 5, 0, 25)
+    TextBox.BackgroundColor3 = Mega.Settings.Menu.ElementColor:Lerp(Color3.new(1, 1, 1), 0.05)
+    TextBox.BorderSizePixel = 0
+    TextBox.Text = tostring(getState())
+    TextBox.PlaceholderText = placeholder or ""
+    TextBox.TextColor3 = Mega.Settings.Menu.TextColor
+    TextBox.PlaceholderColor3 = Mega.Settings.Menu.TextMutedColor
+    TextBox.TextSize = 12
+    TextBox.Font = Enum.Font.Gotham
+    TextBox.ClearTextOnFocus = false
+    TextBox.Parent = TextBoxFrame
+    
+    Instance.new("UICorner", TextBox).CornerRadius = UDim.new(0, 6)
+    local BoxStroke = Instance.new("UIStroke", TextBox)
+    BoxStroke.Color = Mega.Settings.Menu.AccentColor
+    BoxStroke.Transparency = 0.8
+
+    TextBox.FocusLost:Connect(function()
+        local val = TextBox.Text
+        local path = statePath
+        local tbl = Mega.States
+        local key
+        for part in path:gmatch("[^%.]+") do
+            if tbl[part] == nil and part ~= path:match("([^%.]+)$") then tbl[part] = {} end
+            key = part
+            if part ~= path:match("([^%.]+)$") then tbl = tbl[part] end
+        end
+        tbl[key] = val
+        if callback then pcall(callback, val) end
+    end)
+
+    return TextBoxFrame
+end

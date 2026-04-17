@@ -39,5 +39,7 @@ UI.CreateToggleWithSettings(TabFrame, "Slap Aura", "Combat.SlapAura.Enabled", fu
     if Mega.Features.SlapAura and Mega.Features.SlapAura.SetEnabled then Mega.Features.SlapAura.SetEnabled(state) end
 end, {
     UI.CreateSlider(nil, "Радиус (Range)", "Combat.SlapAura.Range", 5, 50),
-    UI.CreateSlider(nil, "Задержка (Delay ms)", "Combat.SlapAura.Delay", 0, 1000)
+    UI.CreateSlider(nil, "Задержка (Delay ms)", "Combat.SlapAura.Delay", 0, 1000),
+    UI.CreateDropdown(nil, "Режим списка", "Combat.SlapAura.ListMode", {"None", "Whitelist", "Blacklist"}, nil, true),
+    UI.CreateTextBox(nil, "Игроки (через запятую)", "Combat.SlapAura.ListPlayers", "Player1, Player2...")
 })

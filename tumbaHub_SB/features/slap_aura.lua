@@ -11,8 +11,10 @@ local States = Mega.States
 -- Защита от отсутствующих настроек
 if not States.Combat then States.Combat = {} end
 if type(States.Combat.SlapAura) ~= "table" then
-    States.Combat.SlapAura = { Enabled = false, Range = 15, Delay = 100 }
+    States.Combat.SlapAura = { Enabled = false, Range = 15, Delay = 100, ListMode = "None", ListPlayers = "" }
 end
+if States.Combat.SlapAura.ListMode == nil then States.Combat.SlapAura.ListMode = "None" end
+if States.Combat.SlapAura.ListPlayers == nil then States.Combat.SlapAura.ListPlayers = "" end
 
 if not Mega.Objects.Connections then Mega.Objects.Connections = {} end
 local connections = Mega.Objects.Connections
@@ -48,6 +50,29 @@ local function getHitRemote()
     return Services.ReplicatedStorage:FindFirstChild("b")
 end
 
+-- Функция проверки WhiteList / BlackList
+local function isPlayerValid(player)
+    local mode = States.Combat.SlapAura.ListMode or "None"
+    if mode == "None" then return true end
+    
+    local list = States.Combat.SlapAura.ListPlayers or ""
+    local name = player.Name:lower()
+    local display = player.DisplayName:lower()
+    
+    local inList = false
+    for p in string.gmatch(list, "[^,]+") do
+        local clean = p:match("^%s*(.-)%s*$"):lower()
+        if clean ~= "" and (name:find(clean) or display:find(clean)) then
+            inList = true
+            break
+        end
+    end
+    
+    if mode == "Whitelist" then return inList end
+    if mode == "Blacklist" then return not inList end
+    return true
+end
+
 -- Главный цикл Ауры
 local lastSlapTime = 0
 
@@ -68,14 +93,16 @@ local function SlapAuraLoop()
     
     for _, player in ipairs(Services.Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local hum = player.Character:FindFirstChild("Humanoid")
-            local targetPart = player.Character:FindFirstChild("Head") or player.Character:FindFirstChild("Torso") or player.Character:FindFirstChild("HumanoidRootPart")
-            
-            if hum and hum.Health > 0 and targetPart then
-                local dist = (hrp.Position - player.Character.HumanoidRootPart.Position).Magnitude
-                if dist <= range then
-                    hitRemote:FireServer(targetPart)
-                    hasSlapped = true
+            if isPlayerValid(player) then
+                local hum = player.Character:FindFirstChild("Humanoid")
+                local targetPart = player.Character:FindFirstChild("Head") or player.Character:FindFirstChild("Torso") or player.Character:FindFirstChild("HumanoidRootPart")
+                
+                if hum and hum.Health > 0 and targetPart then
+                    local dist = (hrp.Position - player.Character.HumanoidRootPart.Position).Magnitude
+                    if dist <= range then
+                        hitRemote:FireServer(targetPart)
+                        hasSlapped = true
+                    end
                 end
             end
         end
