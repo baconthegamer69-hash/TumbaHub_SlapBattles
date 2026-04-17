@@ -32,6 +32,11 @@ local function getHitRemote()
         if tool then gloveName = tool.Name end
     end
     
+    if gloveName == "Dual" then
+        local remote = Services.ReplicatedStorage:FindFirstChild("GeneralHit")
+        if remote then return remote end
+    end
+    
     if not gloveName or gloveName == "Default" then
         return Services.ReplicatedStorage:FindFirstChild("b")
     end
@@ -95,7 +100,7 @@ local function SlapAuraLoop()
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             if isPlayerValid(player) then
                 local hum = player.Character:FindFirstChild("Humanoid")
-                local targetPart = player.Character:FindFirstChild("Head") or player.Character:FindFirstChild("Torso") or player.Character:FindFirstChild("HumanoidRootPart")
+                local targetPart = player.Character:FindFirstChild("Left Leg") or player.Character:FindFirstChild("Head") or player.Character:FindFirstChild("HumanoidRootPart")
                 
                 if hum and hum.Health > 0 and targetPart then
                     local dist = (hrp.Position - player.Character.HumanoidRootPart.Position).Magnitude

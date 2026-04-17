@@ -380,7 +380,18 @@ Mega.Localization = {
         ["Игроки (через запятую)"] = { ru = "Игроки (через запятую)", en = "Players (comma separated)" },
         ["None"] = { ru = "Выкл (Off)", en = "None" },
         ["Whitelist"] = { ru = "Белый список (Whitelist)", en = "Whitelist" },
-        ["Blacklist"] = { ru = "Черный список (Blacklist)", en = "Blacklist" }
+        ["Blacklist"] = { ru = "Черный список (Blacklist)", en = "Blacklist" },
+        
+        -- Player Tab Settings
+        ["section_player_movement"] = { ru = "⚡ ДВИЖЕНИЕ", en = "⚡ MOVEMENT" },
+        ["toggle_speed"] = { ru = "Спидхак (Speed)", en = "Speedhack" },
+        ["slider_speed"] = { ru = "Скорость", en = "Speed" },
+        ["toggle_fly"] = { ru = "Полет (Fly)", en = "Fly" },
+        ["slider_fly_speed"] = { ru = "Скорость полета", en = "Fly Speed" },
+        ["dropdown_fly_mode"] = { ru = "Режим полета", en = "Fly Mode" },
+        ["toggle_noclip"] = { ru = "Ноклип (NoClip)", en = "NoClip" },
+        ["toggle_inf_jump"] = { ru = "Бесконечный прыжок (Inf Jump)", en = "Infinite Jump" },
+        ["toggle_nofall"] = { ru = "Анти-урон от падения (NoFall)", en = "No Fall Damage" }
     }
 }
 

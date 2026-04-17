@@ -22,6 +22,11 @@ ContentLayout.Padding = UDim.new(0, 0) -- Padding is handled by the component fr
 
 Mega.Objects.TabFrames[tabKey] = TabFrame
 
+if not Mega.States.Player then Mega.States.Player = {} end
+if type(Mega.States.Player.Fly) ~= "table" then
+    Mega.States.Player.Fly = { Enabled = false, Speed = 50, Mode = "Velocity" }
+end
+
 --#region -- Movement
 UI.CreateSection(TabFrame, "section_player_movement")
 
@@ -29,10 +34,16 @@ UI.CreateToggleWithSettings(TabFrame, "toggle_speed", "Player.Speed", nil, {
     UI.CreateSlider(nil, "slider_speed", "Player.SpeedValue", 16, 200)
 })
 
-UI.CreateToggleWithSettings(TabFrame, "toggle_fly", "Player.Fly", nil, {
-    UI.CreateSlider(nil, "slider_fly_speed", "Player.FlySpeed", 1, 100),
-    UI.CreateDropdown(nil, "dropdown_fly_mode", "Player.FlyMode", {"Velocity", "Default"}, function(val)
-        Mega.States.Player.FlyMode = val
+task.spawn(function()
+    pcall(function() Mega.LoadModule("features/fly.lua") end)
+end)
+UI.CreateToggleWithSettings(TabFrame, "toggle_fly", "Player.Fly.Enabled", function(state)
+    Mega.States.Player.Fly.Enabled = state
+    if Mega.Features.Fly and Mega.Features.Fly.SetEnabled then Mega.Features.Fly.SetEnabled(state) end
+end, {
+    UI.CreateSlider(nil, "slider_fly_speed", "Player.Fly.Speed", 1, 100),
+    UI.CreateDropdown(nil, "dropdown_fly_mode", "Player.Fly.Mode", {"Velocity", "CFrame"}, function(val)
+        Mega.States.Player.Fly.Mode = val
     end)
 })
 
@@ -169,10 +180,12 @@ local function onRenderStep()
     local humanoid = char:FindFirstChild("Humanoid")
     if not humanoid then return end
 
+    if not Mega.States.Player then return end
+
     if Mega.States.Player.Speed then
-        humanoid.WalkSpeed = Mega.States.Player.SpeedValue
+        humanoid.WalkSpeed = Mega.States.Player.SpeedValue or 16
     else
-        if humanoid.WalkSpeed == Mega.States.Player.SpeedValue then
+        if humanoid.WalkSpeed == (Mega.States.Player.SpeedValue or 16) then
              humanoid.WalkSpeed = 16 -- Default speed
         end
     end
