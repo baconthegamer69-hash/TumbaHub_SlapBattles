@@ -141,14 +141,8 @@ local function InitPhase(id, list)
     end
 end
 
--- PHASE 1: NETWORK HANDSHAKE
-InitPhase("network", {
-    "core/metadata.lua"
-})
-
 -- PHASE 2: BUILDING CORE ENVIRONMENT
 InitPhase("core", {
-    "core/dumper.lua",
     "core/settings.lua",
     "core/localization.lua",
     "core/config.lua"
