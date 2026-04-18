@@ -37,6 +37,11 @@ local function getHitRemote()
         if remote then return remote end
     end
     
+    if gloveName == "Tinkerer" then
+        local remote = Services.ReplicatedStorage:FindFirstChild("TinkererHit")
+        if remote then return remote end
+    end
+    
     if not gloveName or gloveName == "Default" then
         return Services.ReplicatedStorage:FindFirstChild("b")
     end
